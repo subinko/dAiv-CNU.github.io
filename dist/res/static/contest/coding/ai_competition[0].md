@@ -52,4 +52,4 @@
 앞으로의 정식 대회에도 많은 관심 부탁드립니다!
 </pre>
 
-<img src="/dist/res/image/index/programs/ai_contest1.png" style="margin-left: auto; margin-right: auto; display: block; border-radius: 4px"/>
+<img src="/dist/res/image/contest/coding/poster/AI_Competition[0].png" style="margin-left: auto; margin-right: auto; display: block; border-radius: 4px"/>
