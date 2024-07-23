@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Contest | AI Competition[1]</title>
+    <title>Contest | AI Competition[2024] Basic</title>
     <link rel="icon" href="/dist/res/image/favicon.ico">
 
     <!-- Bootstrap Assets -->
@@ -69,68 +69,74 @@
             <div class="row content mx-auto">
                 <div class="py-5" data-aos="fade-up" data-aos-delay="100">
                     <h4>✒️ <strong>대회 상세 소개</strong></h4>
-                    <text>동아리 부원 여러분 안녕하세요?😁 이전 프롤로그 성 대회인 0회 차에 이어, 정식으로 1회 차 AI Competition을 개최하게 되었습니다.🔥 <br>대회를 진행하며 자신만의 AI 모델을 개발해보고 서로 토론하고 지식을 주고 받을 수 있는 기회와 상금을 얻을 수 있으니 많은 참여 부탁드립니다.<br><br><br></text>
+                    <text>인공지능에 관심을 가지고 있는 충남대학교 학우 여러분 안녕하세요?😁 2024년 다이브의 인공지능 대회 시리즈의 두 번째 테마, AI Challenge[2024]_Basic이 드디어 개최됩니다.🔥 <br>대회를 진행하며 자신만의 AI 모델을 개발해보고 서로 토론하고 지식을 주고 받을 수 있는 기회와 상금을 얻을 수 있으니 많은 참여 부탁드립니다.<br><br><br></text>
                     <div class="row">
                         <div class="col-lg-6">
                             <div class="cursor-hover-item" data-aos="fade-up" data-aos-delay="200" data-cursor-text="JOIN!" data-cursor-text-repeat="5">
                                 <h5><i class="bi bi-1-square-fill"></i> 참가 신청</h5>
                                 <ul>
-                                    <li>조건: dAiv 동아리원은 모두 참여 가능. 아닌 경우 팀원 중 최소 한명 이상 dAiv 동아리원이어야합니다.</li>
-                                    <li>팀 구성: 5인 이하의 팀, 또는 개인으로 참여 가능합니다.</li>
+                                    <li>참가 대상: 충남대학교 1, 2학년 재학생으로 이루어진 5인 이하의 팀 (단, 팀원 중 <u>다이브 소속 회원이 한 명 이상</u> 있어야 하며, 한 팀에서 <u>2학년의 수는 최대 2명으로 제한</u>)</li>
+                                    <li>참가 인원: 10팀(20명) 내외</li>
                                     <li id="application_period">신청 기간: 2024년 7월 24일 (수요일) ~ 2024년 7월 31일 (수요일)</li>
                                     <li id="contest_period">대회 진행: 2024년 8월 1일 (목요일) ~ 2024년 8월 29일 (목요일)</li>
-                                    <li id="result_announcement">최종 발표: 2024년 8월 30일 (금요일)</li>
+                                    <li id="result_announcement">최종 발표회: 2024년 8월 30일 (금요일)</li>
                                 </ul>
                             </div>
-                            <div class="cursor-hover-item" class="pt-3" data-aos="fade-up" data-aos-delay="220" data-cursor-text="DATA SET & TASK" data-cursor-text-repeat="3">
-                                <h5><i class="bi bi-2-square-fill"></i> 데이터 셋 및 태스크</h5>
+                            <div class="pt-3 cursor-hover-item" data-aos="fade-up" data-aos-delay="220" data-cursor-text="DATA SET & TASK" data-cursor-text-repeat="3">
+                                <h5><i class="bi bi-2-square-fill"></i> 태스크 및 대회 진행 방식</h5>
                                 <ul>
-                                    <li>4개의 class가 존재하는 이미지 classification 태스크가 주어질 예정입니다.</li>
-                                    <li>데이터 셋과 자세한 내용은 대회 시작일 이후 오픈채팅방에서 공개 예정입니다.</li>
-                                    <li>학습 과정에 필요한 연산 처리를 위한 GPU 서버가 제공됩니다.</li>
-                                    <li>학습에 필요한 TensorFlow의 BaseLineCode를 제공해드립니다.</li>
+                                    <li>11개의 Class가 존재하는 이미지 Classification 태스크가 주어질 예정이며, 데이터 셋을 비롯한 관련된 자세한 내용은 2024년 8월 1일 (목요일) 참가자 오리엔테이션 세션에서 공개됩니다.</li>
+                                    <li>신청할 경우 학습 과정에 필요한 연산 처리를 위한 GPU 서버가 지원될 예정입니다. (학과 GPU)</li>
+                                    <li>저학년들의 대회 참여를 돕기 위해 PyTorch의 경우 BaseLine 코드가, TensorFlow의 경우 코드 생성기가 제공될 예정입니다.</li>
+                                    <li>제공되는 AI 개발 환경과, 코드 생성기 관련 교육을 대회 OT에서 진행할 예정입니다.</li>
+                                    <li>참가자들은 제공된 BaseLine 코드를 바탕으로 모델을 수정하거나, 코드 생성기를 이용하여 모델을 설계하여 학습시킨 후, Evaluation DataSet을 대상으로 분류 작업을 수행한 .csv 파일을 리더보드에 업로드하여 결과를 확인할 수 있습니다.</li>
                                 </ul>
                             </div>
-                            <div class="cursor-hover-item" class="pt-3" data-aos="fade-up" data-aos-delay="240" data-cursor-text="DETAILED CONSTRAINT" data-cursor-text-repeat="2">
+                            <div class="pt-3 cursor-hover-item" data-aos="fade-up" data-aos-delay="240" data-cursor-text="DETAILED CONSTRAINT" data-cursor-text-repeat="2">
                                 <h5><i class="bi bi-3-square-fill"></i> 세부 제약 조건</h5>
                                 <ul>
-                                    <li>모델 관련: Pre-taining 모델 사용 불가합니다</li>
-                                    <i>  (모델을 구현하거나 라이브러리에 있는 모델 구조를 불러 온 뒤 사용하는 것은 가능합니다.)</i>
+                                    <li>모델 관련: Pre-Trained 모델 사용 불가합니다</li>
+                                    <i>  (공개된 모델을 구현하거나 라이브러리에 있는 모델 구조를 불러 온 뒤 사용하는 것은 가능합니다.)</i>
                                     <i>  (제출 시에는 한 개의 최종 모델만 제출해야합니다.)</i>
-                                    <li>학습 데이터 관련: 제공해드린 test 데이터 셋을 절대 학습에 사용하면 안 됩니다.</li>
-                                    <i>  (TestData를 학습했을 시 부정행위 간주 후 자동 탈락 처리할 예정입니다.)</i>
-                                    <i>  (또한, 제공해드린 데이터를 제외한 모든 외부 데이터 추가해서 학습 불가합니다.)</i>
-                                    <li>제출 파일 형식: [‘모델.h5’ 형식으로 저장된 (torch의 경우 .pth) 파일], [.ipynb로 저장된 코드], [test셋 예측 결과가 들어간 .csv파일]</li>
-                                    <i>  (파일명 예시: [팀명_학번.h5, 팀명_학번.pth, 팀명_학번.ipynb, 팀명_학번.csv]를 모두 압축한 팀명_팀장이름.zip)</i>
+                                    <li>학습 데이터 관련: 제공된 데이터 중 Test 데이터 셋을 학습에 사용하는 것은 불가능합니다.</li>
+                                    <i>  (Test DataSet을 학습했을 시 부정 행위로 간주 되어 탈락 처리할 예정입니다.)</i>
+                                    <i>  (또한, 제공되지 않은 타 출처 DataSet을 허가 없이 사용하는 것은 불가능합니다.)</i>
+                                </ul>
+                            </div>
+                            <div class="pt-3 cursor-hover-item" data-aos="fade-up" data-aos-delay="260" data-cursor-text="JUDGEMENT" data-cursor-text-repeat="3">
+                                <h5><i class="bi bi-4-square-fill"></i> 점수 산정 방식⭐</h5>
+                                <ul>
+                                    <li>참가자들은 각 제출 기간(1차, 2차, 최종) 동안 리더보드를 활용하여 .csv 파일을 업로드하여 본인 팀의 실시간 등수를 확인할 수 있습니다.</li>
+                                    <li>제출 종료일 29일 23시 59분 이후 리더보드 최종 제출 순위를 바탕으로 세미나 발표 팀이 선정됩니다. 선정된 팀은 세미나 발표 시점까지 <a href="mailto:cnudaiv@gmail.com">다이브 이메일</a>로 제출 파일 형식에 맞추어 학습 관련 파일을 보내주셔야 합니다.</li>
+                                    <i>  (리더보드 상위팀 일부(8팀 내외)가 선정될 예정이며, 점수 차가 적다면 모든 팀이 선정될 수 있음)</i>
+                                    <li>제출 파일 형식: [학습이 완료된 모델 .h5/.pth 파일], [학습 코드 .py/.ipynb] 2개 항목</li>
+                                    <li>평가 비율: 제출된 모델의 test 셋 예측 성능(30%) + 코드 가독성(주석) 및 참신함(30%) + 세미나 발표(40%) (동점자가 발생할 경우, 리더보드에 먼저 제출한 참가자의 등수가 높음)</li>
                                 </ul>
                             </div>
                         </div>
                         <div class="col-lg-1"><!-- divider --></div>
                         <div class="col-lg-5">
-                            <div class="pt-3 pt-lg-0 cursor-hover-item" data-aos="fade-up" data-aos-delay="260" data-cursor-text="Q&A" data-cursor-text-repeat="7">
-                                <h5><i class="bi bi-4-square-fill"></i> 질문 방법⭐</h5>
+                            <div class="pt-3 pt-lg-5 cursor-hover-item" data-aos="fade-up" data-aos-delay="280" data-cursor-text="OPERATION" data-cursor-text-repeat="3">
+                                <h5><i class="bi bi-5-square-fill"></i> 기획 및 운영</h5>
                                 <ul>
-                                    <li>대회 오픈채팅방에서 질문할 때 형식을 준수하여 질문하길 바랍니다.</li>
-                                    <i>  형식: 질문 부분 캡쳐 + (오류가 발생했을 시 오류 캡쳐) + 해당 질문에 대한 자신의 생각 서술</i>
+                                    <li>진행요원 : 다이브 회장, 다이브 기획부(기획부장, 기획부 인턴)</li>
+                                    <li>지도교수 : 충남대학교 공과대학 인공지능학과 권진근 교수님</li>
+                                    <li>주    최 : 충남대학교 공과대학 인공지능학과 학술동아리 dAiv(다이브)</li>
+                                    <li>주    관 : 충남대학교 소프트웨어중심대학사업단</li>
                                 </ul>
-                            </div>
-                            <div class="pt-3 pt-lg-4 cursor-hover-item" data-aos="fade-up" data-aos-delay="280" data-cursor-text="JUDGEMENT" data-cursor-text-repeat="3">
-                                <h5><i class="bi bi-5-square-fill"></i> 점수 산정 방식</h5>
-                                <ul>
-                                    <li>{1차 평가: 제출된 모델의 test 셋 예측 성능(accuracy)[30%] + 코드 가독성 및 참신함[30%]} + {2차 평가: 세미나 발표[40%]}</li>
-                                    <i>  (단, 세미나는 제출 모델 test셋 예측 성능 상위 일부 팀만 진행할 예정입니다. 최종 수상 팀이 5팀이기 때문에 7팀 이상을 선발할 예정이며, 점수의 차이가 적게 나는 경우 모든 팀이 발표할 수도 있습니다.)</i>
-                                    <li>1차 평가는 100점 만점입니다. 90점은 제출한 .csv파일에서 맞춘 개수를 환산한 점수, 10점은 참가자들의 모델 파라미터 수를 기준으로 적은 순서대로 등수를 매겨 환산합니다.</li>
-                                    <li>+ (리더보드) 대회 중 평가에는 반영되지 않는 3회의 제출 기회가 있습니다.(정확한 날짜 추후 공지) 이때 본인 팀의 .csv 파일을 제출하면 정확도(맞춘 개수 비율)를 팀장에게 알려드립니다. 또한 상위 5개의 팀의 순위도 공지될 예정입니다.</li>
-                                </ul>
+                                <div class="pb-3">
+                                    <img src="/dist/res/image/contest/coding/poster/AI_Competition[2024]_Basic.gif" height="320" class="mx-auto d-block">
+                                </div>
                             </div>
                             <div class="pt-3 pt-lg-4 cursor-hover-item" data-aos="fade-up" data-aos-delay="300" data-cursor-text="AWARD" data-cursor-text-repeat="5">
                                 <h5><i class="bi bi-6-square-fill"></i> 시상 및 상금</h5>
                                 <ul>
-                                    <li>시상식 날짜: 추후 공지</li>
+                                    <li>결과 발표회 및 시상식: 2024년 9월 중 예정 (학내 공대 5호관 / 미정)</li>
+                                    <i>세부 일정은 <a href="https://ai.cnu.ac.kr/ai/community/free.do?mode=view&articleNo=515337&article.offset=0&articleLimit=10">학교 홈페이지 공지사항 행사계획서</a> 참조</i>
                                     <li>총 상금: 50만원</li>
-                                    <i>  최우수상 20만원 (1팀)<br></i>
+                                    <i>  최우수상 15만원 (1팀)<br></i>
                                     <i>  우수상 10만원 (2팀)<br></i>
-                                    <i>  장려상 5만원 (2팀)<br></i>
+                                    <i>  장려상 5만원 (3팀)<br></i>
                                 </ul>
                             </div>
                         </div>
@@ -155,12 +161,12 @@
                     </div>
                 </div>
                 <div class="col-md-6 description">
-                    <div class="pt-4">
+                    <div class="pt-5 pb-2">
                         <h6 id="participants_count_desc">대회에 관심이 있으신가요?<br>어서 참가신청을 해보세요! 지금까지 {participants}팀이 신청했다네요!</h6>
                         <a href="https://docs.google.com/forms/d/e/1FAIpQLSf3YhxizpQ-xqumxhI7aZouK-_XH1xfnmEKTcQL5jY1RF089w/viewform?usp=sf_link"
                            class="btn btn-light rounded-pill cursor-hover-item mt-3 mb-4"
                            data-cursor-text="TAKE PART IN!" data-cursor-text-repeat="3">대회 참가 신청하기</a>
-                        <p>* 대회에 참가하는 모든 팀의 팀장 및 팀원은 추후 공지되는 오픈채팅방에 참여해주셔야하며, 이름은 ‘[팀명]이름_직책’으로 통일해주시길 바랍니다. 또한 모든 팀은 아래 공지를 꼭 확인해주시길 바랍니다.</p>
+                        <p>* 대회에 참가하는 모든 팀의 팀장 및 팀원은 추후 팀장을 통해 전달되는 오픈채팅방에 참여해주셔야하며, 이름은 ‘[팀명]이름_직책’으로 통일해주시길 바랍니다. 채팅방에서의 질문은 '질문(에러) 부분 캡쳐 + 해당 질문에 대한 자신의 생각'의 형식을 맞추어주시기 바랍니다.</p>
                     </div>
                 </div>
             </div>
