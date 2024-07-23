@@ -89,6 +89,7 @@ async def set_iframe():
                 .replace("id=\"ask_send\"", "id=\"ask_send_disabled\"")
                 .replace("<div class = \"container\">", "<div class = \"increase_max_width container\">")
                 .replace("ask_wrapper not_host", "increase_max_width ask_wrapper not_host")
+                .replace("https://tag.poomang.com/js.reign/pushoong_web/pushoongw_pc_ask_in/t1", "")
                 .replace("ask_title_zone", "increase_max_width ask_title_zone")
                 .replace("ask_input_zone", "increase_max_width ask_input_zone"))
 
