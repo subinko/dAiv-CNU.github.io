@@ -132,7 +132,7 @@
                                 <h5><i class="bi bi-6-square-fill"></i> 시상 및 상금</h5>
                                 <ul>
                                     <li>결과 발표회 및 시상식: 2024년 9월 중 예정 (학내 공대 5호관 / 미정)</li>
-                                    <i>세부 일정은 <a href="https://ai.cnu.ac.kr/ai/community/free.do?mode=view&articleNo=515337&article.offset=0&articleLimit=10">학교 홈페이지 공지사항 행사계획서</a> 참조</i>
+                                    <i>세부 일정은 <a href="https://ai.cnu.ac.kr/ai/community/free.do?mode=view&articleNo=519913&article.offset=0&articleLimit=10">학교 홈페이지 공지사항 행사계획서</a> 참조</i>
                                     <li>총 상금: 50만원</li>
                                     <i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 최우수상 15만원 (1팀)<br></i>
                                     <i>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp 우수상 10만원 (2팀)<br></i>
@@ -156,7 +156,7 @@
                                 <h5 id="participants_count">{participants}</h5>
                                 <h6>TEAMS</h6>
                             </div>
-                            <div id="participants_status_chart" data="" api="http://daiv-cnu.duckdns.org:25678/contest/ai_challenge[2024]_basic/participant"></div>
+                            <div id="participants_status_chart" data="" api="http://daiv-cnu.duckdns.org:25678/contest/ai_competition[2024]_basic/participant"></div>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@
                 </ul>
                 <span>제출 대상 파일은 제공된 test.csv 파일에서 label 부분이 채워진 결과입니다. 부정 행위 방지를 위해 하루 최대 10번으로 제출을 제한하며, 제출할때 마다 리더보드의 점수는 가장 마지막에 제출한 점수로 대체됩니다.</span>
                 <br>
-                <form id="leaderboard_form" class="d-none" action="http://daiv-cnu.duckdns.org:25678/contest/ai_challenge[2024]_basic/participant/contest/ai_challenge[2024]_basic/leaderboard/" method="post" enctype="multipart/form-data">
+                <form id="leaderboard_form" class="d-none" action="http://daiv-cnu.duckdns.org:25678/contest/ai_competition[2024]_basic/leaderboard/" method="post" enctype="multipart/form-data">
                     <input type="text" name="username" placeholder="Username">
                     <input type="password" name="password" placeholder="Password">
                     <!-- Hidden input for token -->
@@ -235,9 +235,45 @@
                     <input type="file" id="file" name="file" accept=".csv">
                     <button type="submit">Submit</button>
                 </form>
+                <br>
+                <br>
             </div>
         </div>
     </section>
+    <!--
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Login Form</title>
+    </head>
+    <body>
+    <form id="loginForm">
+        ID: <input type="text" id="userId"><br>
+        Password: <input type="password" id="password"><br>
+        <input type="submit" value="Login">
+    </form>
+
+    <script>
+        document.getElementById('loginForm').onsubmit = function(event) {
+            event.preventDefault(); // 폼 기본 제출 방지
+
+            var userId = document.getElementById('userId').value;
+            var password = document.getElementById('password').value;
+            var credentials = btoa(userId + ':' + password); // Base64 인코딩
+
+            fetch('http://example.com/protected/resource', {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + credentials
+                }
+            })
+                .then(response => response.json())
+                .then(data => console.log(data))
+                .catch(error => console.error('Error:', error));
+        };
+    </script>
+    </body>
+    </html> -->
 
     <section id="winnerpodium" class="winnerpodium d-none">
         <img src="/dist/res/image/contest/coding/winnerpodium_background.svg" class="background-container"></img>

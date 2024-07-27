@@ -49,7 +49,6 @@ try:
         dataset = list(map(int, chart.attributes.data.value.replace(' ', '').split(',')))
     else:
         dataset = []
-        raise NotImplementedError("Please implement other dataset query methods.")
 
     total_team = sum(dataset)
     count_desc = document.getElementById('participants_count_desc')
