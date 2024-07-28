@@ -158,42 +158,85 @@ def open_leaderboard(e):
         traceback.print_exc()
 
 
-try:
-    leaderboard = document.querySelector("#leaderboard_chart")
-    if leaderboard.innerHTML:
-        raw_data = leaderboard.innerHTML
-        leaderboard.innerHTML = ""
-        dataset = json.loads(raw_data, parse_float=lambda x: float(x))
-    else:
-        dataset = {}
-        raise NotImplementedError("Please implement other dataset query methods.")
+async def set_leaderboard_data():
+    dataset = dict(teams=[], values=dict())
+    try:
+        leaderboard = document.querySelector("#leaderboard_chart")
+        if leaderboard.innerHTML:
+            raw_data = leaderboard.innerHTML
+            leaderboard.innerHTML = ""
+            dataset = json.loads(raw_data, parse_float=lambda x: float(x))
 
-    # arrange dataset
-    # # select sorting criteria
-    criteria = ""
-    keys = list(dataset['values'].keys())
-    keys.reverse()
-    for key in keys:  # dict(reversed(a['values'].items())) not working properly in brython
-        criteria = key
-        if sum(dataset['values'][key]) > 0:
-            break
-    # # sort
-    if criteria:
-        zipped = zip(dataset['values'][criteria], zip(dataset['teams'], *dataset['values'].values()))
-        sorted_zip = [value for key, value in sorted(zipped, key=lambda x: x[0], reverse=True)]
-        unzipped = list(zip(*sorted_zip))
-        dataset['teams'] = unzipped.pop(0)
-        dataset['values'] = {key: dt for dt, key in zip(unzipped, dataset['values'].keys())}
+            if len(dataset['teams']) == 0:  # Online Leaderboard Mode
+                print("INFO: Trying to fetch leaderboard data from server...")
+                form = document.getElementById('leaderboard_form')
+                if form:
+                    # fetch data
+                    result = await window.fetch(form.action, {
+                        'method': "POST",
+                        'headers': {
+                            'Authorization': f"Bearer {__WEB_CLIENT_TOKEN}"
+                        }
+                    })
+                    fetched = json.loads(await result.text())
+                    # update dataset
+                    dataset['teams'] = fetched['teams']
+                    total_values = [0.0 for _ in fetched['teams']]
+                    for key, data in zip(dataset['values'].keys(), [*fetched['values'].values(), total_values]):
+                        dataset['values'][key] = [float(str(d)) for d in data]
+                else:
+                    raise ValueError("Fetch URL Error - No data available for leaderboard!!")
+            else:  # Offline Leaderboard Mode
+                print("INFO: Using Offline leaderboard data...")
+        else:
+            raise ValueError("Please specify leaderboard format in the HTML")
 
-    chart = window.ApexCharts.new(leaderboard, build_leaderboard_chart(**dataset))
-    chart.render()
-    [chart.toggleSeries(key) for key in keys if sum(dataset['values'][key]) <= 0]
+        # arrange dataset
+        # # select sorting criteria
+        criteria = ""
+        keys = list(dataset['values'].keys())
+        keys.reverse()
+        for key in keys:  # dict(reversed(a['values'].items())) not working properly in brython
+            criteria = key
+            if sum(dataset['values'][key]) > 0:
+                break
+        # # sort
+        if criteria:
+            zipped = zip(dataset['values'][criteria], zip(dataset['teams'], *dataset['values'].values()))
+            sorted_zip = [value for key, value in sorted(zipped, key=lambda x: x[0], reverse=True)]
+            unzipped = list(zip(*sorted_zip))
+            dataset['teams'] = unzipped.pop(0)
+            dataset['values'] = {key: dt for dt, key in zip(unzipped, dataset['values'].keys())}
 
-    opener = document.getElementById('btn_leaderboard')
-    if opener:
-        opener.bind('click', open_leaderboard)
-except Exception as _:
-    traceback.print_exc()
+        chart = window.ApexCharts.new(leaderboard, build_leaderboard_chart(**dataset))
+        chart.render()
+        [chart.toggleSeries(key) for key in keys if sum(dataset['values'][key]) <= 0]
+
+        opener = document.getElementById('btn_leaderboard')
+        if opener:
+            opener.bind('click', open_leaderboard)
+
+        form = document.getElementById('leaderboard_form')
+        _, start, end, _ = parse_timeline_data()
+        if form and start <= datetime.now().date() <= end:
+            form.classList.remove('d-none')
+            url = form.action
+            if not url.endswith('/'):
+                url = url + '/'
+
+            def submit_leaderboard(e):
+                try:
+                    e.preventDefault()  # 폼 기본 제출 방지
+
+                except Exception as _:
+                    traceback.print_exc()
+
+            form.onsubmit = submit_leaderboard
+    except Exception as _:
+        traceback.print_exc()
+
+
+aio.run(set_leaderboard_data())
 
 
 ########################################################################################################################

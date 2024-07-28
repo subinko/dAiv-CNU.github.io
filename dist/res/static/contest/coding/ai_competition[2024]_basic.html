@@ -202,12 +202,12 @@
                 </div>
                 <div class="chart-wrapper">
                     <div id="leaderboard_chart" class="mx-0 mx-sm-2"> {
-                            "teams": ["Alpha", "Beta", "Gamma", "Delta", "Epsilo", "Zeta", "Eta", "Theta", "Iota"],
+                            "teams": [],
                             "values": {
-                                "1차 제출": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                                "2차 제출": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                                "최종 제출": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0],
-                                "합계": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+                                "1차 제출": [],
+                                "2차 제출": [],
+                                "최종 제출": [],
+                                "합계": []
                             }
                         }
                     </div>
@@ -220,6 +220,8 @@
                  data-cursor-text="LEADERBOARD!" data-cursor-text-repeat="3">리더보드 열기</div>
             <div class="mt-3">
                 <span>리더보드 최종 제출 기간을 제외하고 1차와 2차 기간은 실제 평가에 반영되는 것은 아니며, 모델 예측 성능 점수 및 등수 확인을 위한 목적으로 활용하시면 됩니다.</span>
+                <br>
+                <span><참고사항> 리더보드 1차와 2차 평가는 전체 Test셋 중 전체 데이터와 유사한 라벨 비율을 가진 40% 표본에 대해서만 점수가 계산됩니다.</span>
                 <ul>
                     <li>1차 제출 기간: 2024년 8월 1일 (목요일) ~ 2024년 8월 11일 (일요일)</li>
                     <li>2차 제출 기간: 2024년 8월 12일 (월요일) ~ 2024년 8월 25일 (일요일)</li>
@@ -227,52 +229,16 @@
                 </ul>
                 <span>제출 대상 파일은 제공된 test.csv 파일에서 label 부분이 채워진 결과입니다. 부정 행위 방지를 위해 하루 최대 10번으로 제출을 제한하며, 제출할때 마다 리더보드의 점수는 가장 마지막에 제출한 점수로 대체됩니다.</span>
                 <br>
-                <form id="leaderboard_form" class="d-none" action="http://daiv-cnu.duckdns.org:25678/contest/ai_competition[2024]_basic/leaderboard/" method="post" enctype="multipart/form-data">
-                    <input type="text" name="username" placeholder="Username">
-                    <input type="password" name="password" placeholder="Password">
-                    <!-- Hidden input for token -->
-                    <input type="hidden" name="token" value="TOKEN_WILL_BE_REPLACED_IN_PYTHON_SCRIPT">
+                <form id="leaderboard_form" class="" action="https://daiv-cnu.duckdns.org/contest/ai_competition[2024]_basic/leaderboard">
+                    <input type="text" name="leaderboard_form_username" placeholder="Username">
+                    <input type="password" name="leaderboard_form_password" placeholder="Password">
                     <input type="file" id="file" name="file" accept=".csv">
-                    <button type="submit">Submit</button>
+                    <button type="submit">제출</button>
                 </form>
                 <br>
             </div>
         </div>
     </section>
-    <!--
-    <!DOCTYPE html>
-    <html>
-    <head>
-        <title>Login Form</title>
-    </head>
-    <body>
-    <form id="loginForm">
-        ID: <input type="text" id="userId"><br>
-        Password: <input type="password" id="password"><br>
-        <input type="submit" value="Login">
-    </form>
-
-    <script>
-        document.getElementById('loginForm').onsubmit = function(event) {
-            event.preventDefault(); // 폼 기본 제출 방지
-
-            var userId = document.getElementById('userId').value;
-            var password = document.getElementById('password').value;
-            var credentials = btoa(userId + ':' + password); // Base64 인코딩
-
-            fetch('http://example.com/protected/resource', {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Basic ' + credentials
-                }
-            })
-                .then(response => response.json())
-                .then(data => console.log(data))
-                .catch(error => console.error('Error:', error));
-        };
-    </script>
-    </body>
-    </html> -->
 
     <section id="winnerpodium" class="winnerpodium d-none">
         <img src="/dist/res/image/contest/coding/winnerpodium_background.svg" class="background-container"></img>
