@@ -7,6 +7,9 @@ import traceback
 import json
 
 
+__WEB_CLIENT_TOKEN = "+e?65NZa@=[OY(iMX@t3q1O^lTCg7t/eI!rfqS/@&MaF~*3>[g"
+
+
 def parse_timeline_data():
     date_format = "%Y년 %m월 %d일"
     date = lambda d: datetime.strptime(d, date_format).date()
@@ -43,28 +46,39 @@ except Exception as _:
 ########################################################################################################################
 # Participation Status Animation
 ########################################################################################################################
-try:
-    chart = document.querySelector("#participants_status_chart")
-    if chart.attributes.data.value:
-        dataset = list(map(int, chart.attributes.data.value.replace(' ', '').split(',')))
-    else:
-        dataset = []
+async def set_join_status():
+    try:
+        chart = document.querySelector("#participants_status_chart")
+        if chart.attributes.data.value:
+            dataset = list(map(int, chart.attributes.data.value.replace(' ', '').split(',')))
+        else:
+            result = await window.fetch(chart.attributes.api.value, {
+                'method': "POST",
+                'headers': {
+                    'Authorization': f"Bearer {__WEB_CLIENT_TOKEN}"
+                }
+            })
+            dataset_raw = await result.text()
+            chart.attributes.data.value = dataset_raw.replace('[', '').replace(']', '')
+            dataset = json.loads(dataset_raw)
 
-    total_team = sum(dataset)
-    count_desc = document.getElementById('participants_count_desc')
-    count = document.getElementById('participants_count')
-    if count_desc:
-        count_desc.innerHTML = count_desc.innerHTML.replace("{participants}", f"{total_team}")
-    if count:
-        count.innerHTML = count.innerHTML.replace("{participants}", f"{total_team}")
+        total_team = sum(dataset)
+        count_desc = document.getElementById('participants_count_desc')
+        count = document.getElementById('participants_count')
+        if count_desc:
+            count_desc.innerHTML = count_desc.innerHTML.replace("{participants}", f"{total_team}")
+        if count:
+            count.innerHTML = count.innerHTML.replace("{participants}", f"{total_team}")
 
-    chart_wrapper = document.getElementById('participants_status_chart_wrapper')
-    if chart_wrapper:
-        chart_wrapper.classList.add(choice(['chart-wrapper-var0', 'chart-wrapper-var1']))
+        chart_wrapper = document.getElementById('participants_status_chart_wrapper')
+        if chart_wrapper:
+            chart_wrapper.classList.add(choice(['chart-wrapper-var0', 'chart-wrapper-var1']))
 
-    window.ApexCharts.new(chart, build_participation_status_chart(dataset, parse_timeline_data())).render()
-except Exception as _:
-    traceback.print_exc()
+        window.ApexCharts.new(chart, build_participation_status_chart(dataset, parse_timeline_data())).render()
+    except Exception as _:
+        traceback.print_exc()
+
+aio.run(set_join_status())
 
 
 ########################################################################################################################
@@ -97,6 +111,14 @@ async def set_iframe():
         pushoong.open()
         pushoong.write(psh_html)
         pushoong.close()
+        while True:
+            await aio.sleep(0.001)
+            for wrapper in pushoong.getElementsByClassName('increase_max_width ask_wrapper'):
+                wrapper.style.top = "0px"
+            for wrapper in pushoong.getElementsByClassName('increase_max_width ask_title_zone'):
+                wrapper.style.top = "0px"
+            if pushoong.readyState == "complete":
+                break
 
 aio.run(set_iframe())
 
