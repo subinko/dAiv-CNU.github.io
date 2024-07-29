@@ -159,7 +159,9 @@ def open_leaderboard(e):
 
 
 async def set_leaderboard_data():
-    dataset = dict(teams=[], values=dict())
+    dataset = dict(teams=[], values=dict())  # prevent garbage collection
+    key_func = lambda x: x[0]  # do not define a function inside try-except block (Brython bug - undefined)
+    force_open_hider = False
     try:
         leaderboard = document.querySelector("#leaderboard_chart")
         if leaderboard.innerHTML:
@@ -179,10 +181,17 @@ async def set_leaderboard_data():
                         }
                     })
                     fetched = json.loads(await result.text())
+
                     # update dataset
                     dataset['teams'] = fetched['teams']
-                    total_values = [0.0 for _ in fetched['teams']]
-                    for key, data in zip(dataset['values'].keys(), [*fetched['values'].values(), total_values]):
+                    if sum(sum(values) for values in dataset["values"].values()) == 0:  # no data in the dataset
+                        # apexchart cannot render if all values are zero, so put fake values
+                        fake_total_values = [100.0 for _ in fetched['teams']]
+                        # and there's no data in the leaderboard, don't need to hide the chart
+                        force_open_hider = True
+                    else:
+                        fake_total_values = [0.0 for _ in fetched['teams']]
+                    for key, data in zip(dataset['values'].keys(), [*fetched['values'].values(), fake_total_values]):
                         dataset['values'][key] = [float(str(d)) for d in data]
                 else:
                     raise ValueError("Fetch URL Error - No data available for leaderboard!!")
@@ -203,19 +212,25 @@ async def set_leaderboard_data():
         # # sort
         if criteria:
             zipped = zip(dataset['values'][criteria], zip(dataset['teams'], *dataset['values'].values()))
-            sorted_zip = [value for key, value in sorted(zipped, key=lambda x: x[0], reverse=True)]
+            reversed_zipped = sorted(zipped, key=key_func, reverse=True)
+            sorted_zip = [value for key, value in reversed_zipped]
             unzipped = list(zip(*sorted_zip))
             dataset['teams'] = unzipped.pop(0)
             dataset['values'] = {key: dt for dt, key in zip(unzipped, dataset['values'].keys())}
 
+        # render chart
         chart = window.ApexCharts.new(leaderboard, build_leaderboard_chart(**dataset))
         chart.render()
         [chart.toggleSeries(key) for key in keys if sum(dataset['values'][key]) <= 0]
 
+        # set leaderboard opener
         opener = document.getElementById('btn_leaderboard')
         if opener:
             opener.bind('click', open_leaderboard)
+            if force_open_hider:
+                opener.click()
 
+        # set the leaderboard submission form
         form = document.getElementById('leaderboard_form')
         _, start, end, _ = parse_timeline_data()
         if form and start <= datetime.now().date() <= end:
