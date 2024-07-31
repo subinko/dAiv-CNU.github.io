@@ -1,6 +1,10 @@
 import browser
 from browser import document, window, aio
 
+from datetime import datetime
+
+current_year = datetime.now().year
+
 
 def module_init(_id, module_name):
     import sys
@@ -21,7 +25,7 @@ async def insert_template(template_path: str, parent, index: int = -1, oncomplet
 def insert_element(htmlstr: str, parent, index: int = -1):
     if parent.childNodes.length < index:
         index = parent.childNodes.length
-    parent.insertBefore(parse_html(htmlstr), parent.childNodes[index])
+    parent.insertBefore(parse_html(htmlstr.replace("{CURRENT_YEAR}", f"{current_year}")), parent.childNodes[index])
 
 
 def parse_html(htmlstr: str):

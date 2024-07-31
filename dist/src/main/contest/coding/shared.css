@@ -162,6 +162,17 @@
     color: #b4b4b4;
 }
 
+#leaderboard .leaderboard-form-title {
+    color: #ffffff;
+}
+
+#leaderboard #leaderboard_form_file::-webkit-file-upload-button,
+#leaderboard #leaderboard_form_file::file-selector-button {
+    width: 0;
+    padding: 0;
+    border: none;
+}
+
 
 /*--------------------------------------------------------------
 # Winner Podium Section
