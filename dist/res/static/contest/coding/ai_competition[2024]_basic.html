@@ -218,7 +218,7 @@
             </div>
             <div id="btn_leaderboard" class="btn btn-warning btn-leaderboard cursor-hover-item mt-2"
                  data-cursor-text="LEADERBOARD!" data-cursor-text-repeat="3">리더보드 열기</div>
-            <div class="mt-3">
+            <div class="my-3 pb-4">
                 <span>리더보드 최종 제출 기간을 제외하고 1차와 2차 기간은 실제 평가에 반영되는 것은 아니며, 모델 예측 성능 점수 및 등수 확인을 위한 목적으로 활용하시면 됩니다.</span>
                 <br>
                 <span><참고사항> 리더보드 1차와 2차 평가는 전체 Test셋 중 전체 데이터와 유사한 라벨 비율을 가진 40% 표본에 대해서만 점수가 계산됩니다.</span>
@@ -228,14 +228,33 @@
                     <li>최종 제출 기간: 2024년 8월 26일 (월요일) ~ 2024년 8월 29일 (목요일)</li>
                 </ul>
                 <span>제출 대상 파일은 제공된 test.csv 파일에서 label 부분이 채워진 결과입니다. 부정 행위 방지를 위해 하루 최대 10번으로 제출을 제한하며, 제출할때 마다 리더보드의 점수는 가장 마지막에 제출한 점수로 대체됩니다.</span>
-                <br>
-                <form id="leaderboard_form" class="d-none" action="https://daiv-cnu.duckdns.org/contest/ai_competition[2024]_basic/leaderboard">
-                    <input type="text" name="leaderboard_form_username" placeholder="Username">
-                    <input type="password" name="leaderboard_form_password" placeholder="Password">
-                    <input type="file" id="file" name="file" accept=".csv">
-                    <button type="submit">제출</button>
-                </form>
-                <br>
+                <div id="leaderboard_form_container" class="d-none mt-4 mb-1">
+                    <h5 class="leaderboard-form-title">리더보드 제출</h5>
+                    <form id="leaderboard_form"  class="row row-cols-lg-auto g-3 align-items-center" action="https://daiv-cnu.duckdns.org/contest/ai_competition[2024]_basic/leaderboard">
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                            <label class="visually-hidden" for="leaderboard_form_username">Username</label>
+                            <div class="input-group">
+                                <div class="input-group-text">@</div>
+                                <select class="form-select" id="leaderboard_form_username">
+                                    <option selected>Username</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                            <label class="visually-hidden" for="leaderboard_form_password">Preference</label>
+                            <input type="password" class="form-control" id="leaderboard_form_password" placeholder="Password">
+                        </div>
+                        <div class="col-lg-5 col-md-10 col-sm-10 col-12">
+                            <div class="input-group">
+                                <input type="file" id="leaderboard_form_file" class="form-control">
+                                <label class="input-group-text" for="leaderboard_form_file">파일 선택</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-auto col-md-2 col-sm-auto col-12">
+                            <button type="submit" class="btn btn-primary">제출</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </section>

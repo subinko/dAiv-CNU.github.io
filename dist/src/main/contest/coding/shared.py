@@ -158,6 +158,22 @@ def open_leaderboard(e):
         traceback.print_exc()
 
 
+def submit_leaderboard(url, team_list):
+    def wrapped(e):
+        e.preventDefault()  # disable default form submission method
+        try:
+            team_idx = int(document.getElementById('leaderboard_form_username').value)
+            password = document.getElementById('leaderboard_form_password').value
+
+
+            # data validation
+
+
+        except Exception as _:
+            traceback.print_exc()
+    return wrapped
+
+
 async def set_leaderboard_data():
     dataset = dict(teams=[], values=dict())  # prevent garbage collection
     key_func = lambda x: x[0]  # do not define a function inside try-except block (Brython bug - undefined)
@@ -200,6 +216,9 @@ async def set_leaderboard_data():
         else:
             raise ValueError("Please specify leaderboard format in the HTML")
 
+        # parse team list
+        team_list = [t for t in dataset['teams']]
+
         # arrange dataset
         # # select sorting criteria
         criteria = ""
@@ -231,22 +250,24 @@ async def set_leaderboard_data():
                 opener.click()
 
         # set the leaderboard submission form
-        form = document.getElementById('leaderboard_form')
+        form_container = document.getElementById('leaderboard_form_container')
         _, start, end, _ = parse_timeline_data()
-        if form and start <= datetime.now().date() <= end:
-            form.classList.remove('d-none')
+        if form_container and start <= datetime.now().date() <= end:
+            form_container.classList.remove('d-none')
+            form = document.getElementById('leaderboard_form')
+
             url = form.action
             if not url.endswith('/'):
                 url = url + '/'
 
-            def submit_leaderboard(e):
-                try:
-                    e.preventDefault()  # 폼 기본 제출 방지
+            # set the team list to the form
+            team_selections = document.getElementById('leaderboard_form_username')
+            for data in enumerate(team_list):
+                option = document.createElement('option')
+                option.value, option.text = data
+                team_selections.appendChild(option)
 
-                except Exception as _:
-                    traceback.print_exc()
-
-            form.onsubmit = submit_leaderboard
+            form.onsubmit = submit_leaderboard(url=url, team_list=team_list)
     except Exception as _:
         traceback.print_exc()
 
