@@ -4,6 +4,7 @@ from common.dashboard import build_timeline_chart, build_participation_status_ch
 from datetime import datetime
 from random import choice
 import traceback
+import base64
 import json
 
 
@@ -158,20 +159,80 @@ def open_leaderboard(e):
         traceback.print_exc()
 
 
+def watch_form(data, validation, message=(lambda d: "", lambda d: "")):
+    def watcher(_):
+        if data and validation:
+            try:
+                validation.textContent = message[0](data)
+                if not data.classList.contains('is-valid'):
+                    data.classList.add('is-valid')
+                if data.classList.contains('is-invalid'):
+                    data.classList.remove('is-invalid')
+                if validation.classList.contains('invalid-feedback'):
+                    validation.classList.remove('invalid-feedback')
+                if not validation.classList.contains('valid-feedback'):
+                    validation.classList.add('valid-feedback')
+            except ValueError:
+                validation.textContent = message[1](data)
+                if data.classList.contains('is-valid'):
+                    data.classList.remove('is-valid')
+                if not data.classList.contains('is-invalid'):
+                    data.classList.add('is-invalid')
+                if not validation.classList.contains('invalid-feedback'):
+                    validation.classList.add('invalid-feedback')
+                if validation.classList.contains('valid-feedback'):
+                    validation.classList.remove('valid-feedback')
+    return watcher
+
+
 def submit_leaderboard(url, team_list):
     def wrapped(e):
         e.preventDefault()  # disable default form submission method
+
+        modal_body = document.getElementById('leaderboard_modal_body_text')
+        launcher = document.getElementById('leaderboard_modal_launcher')
+        team_idx = document.getElementById('leaderboard_form_username')
+        password = document.getElementById('leaderboard_form_password')
+        file = document.getElementById('leaderboard_form_file')
+
         try:
-            team_idx = int(document.getElementById('leaderboard_form_username').value)
-            password = document.getElementById('leaderboard_form_password').value
+            if not team_idx.value.isdigit() or not (0 <= int(team_idx.value) <= len(team_list)):
+                team_idx.value = ""
+                return
+            team_name, pass_word = team_list[int(team_idx.value)], password.value
 
+            modal_body.innerHTML = f"{team_name}팀의 결과를 제출 중 입니다.<br>창을 닫지 말고 잠시만 기다려주세요..."
+            launcher.click()
 
-            # data validation
+            async def submit():
+                result = await window.fetch(url + team_name, {
+                    'method': "POST",
+                    'headers': {
+                        'Authorization': f"Bearer {__WEB_CLIENT_TOKEN}",
+                        'username': base64.b64encode(team_name.encode('utf-8')).decode('utf-8'),
+                        'password': base64.b64encode(pass_word.encode('utf-8')).decode('utf-8')
+                    }
+                })
 
-
+                if result.status == 200:
+                    async def get_text():
+                        return await result.text()
+                    fetched = json.loads(aio.run(get_text()))
+                    if fetched['status'] == "success":
+                        modal_body.innerHTML = f"제출이 완료되었습니다.<br><br>축하합니다!<br>이번 제출의 채점 결과는 {fetched['message']} 입니다."
+                    else:
+                        modal_body.innerHTML = f"제출에 실패했습니다. 다시 시도해주세요.<br>사유: {fetched['message']}"
+                else:
+                    modal_body.innerHTML = f"비밀번호가 올바르지 않거나 제출이 허가되지 않은 대회 입니다.<br>다시 시도해주세요."
+                    password.value = ""
+            aio.run(submit())
         except Exception as _:
             traceback.print_exc()
     return wrapped
+
+
+username_messages = lambda u: f"{int(u.value)+1}번째 팀을 선택하셨습니다.", lambda u: "팀 이름이 올바르지 않습니다."
+password_messages = lambda p: "Looks good!" if p.value else (_ for _ in ()).throw(ValueError), lambda p: "비밀번호는 비어있을 수 없습니다."
 
 
 async def set_leaderboard_data():
@@ -268,6 +329,14 @@ async def set_leaderboard_data():
                 team_selections.appendChild(option)
 
             form.onsubmit = submit_leaderboard(url=url, team_list=team_list)
+            username = document.getElementById('leaderboard_form_username')
+            validation = document.getElementById('leaderboard_form_username_validation')
+            if username and validation:
+                username.bind('change', watch_form(username, validation, username_messages))
+            password = document.getElementById('leaderboard_form_password')
+            validation = document.getElementById('leaderboard_form_password_validation')
+            if password and validation:
+                password.bind('change', watch_form(password, validation, password_messages))
     except Exception as _:
         traceback.print_exc()
 
