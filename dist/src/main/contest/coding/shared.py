@@ -280,7 +280,7 @@ async def set_leaderboard_data():
 
                     # update dataset
                     dataset['teams'] = fetched['teams']
-                    if sum(sum(values) for values in dataset["values"].values()) == 0:  # no data in the dataset
+                    if sum(sum(values) for values in fetched["values"].values()) == 0:  # no data in the fetched dataset
                         # apexchart cannot render if all values are zero, so put fake values
                         fake_total_values = [100.0 for _ in fetched['teams']]
                         # and there's no data in the leaderboard, don't need to hide the chart
