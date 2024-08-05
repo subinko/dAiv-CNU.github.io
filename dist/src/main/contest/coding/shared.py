@@ -193,7 +193,7 @@ def submit_leaderboard(url, team_list):
         launcher = document.getElementById('leaderboard_modal_launcher')
         team_idx = document.getElementById('leaderboard_form_username')
         password = document.getElementById('leaderboard_form_password')
-        file = document.getElementById('leaderboard_form_file')
+        file_input = document.getElementById('leaderboard_form_file')
 
         try:
             if not team_idx.value.isdigit() or not (0 <= int(team_idx.value) <= len(team_list)):
@@ -205,26 +205,44 @@ def submit_leaderboard(url, team_list):
             launcher.click()
 
             async def submit():
+                file = file_input.files[0]
+                form_data = window.FormData.new()
+                form_data.append("csv_file", file, file.name)
+
                 result = await window.fetch(url + team_name, {
                     'method': "POST",
                     'headers': {
                         'Authorization': f"Bearer {__WEB_CLIENT_TOKEN}",
                         'username': base64.b64encode(team_name.encode('utf-8')).decode('utf-8'),
                         'password': base64.b64encode(pass_word.encode('utf-8')).decode('utf-8')
-                    }
+                    },
+                    'body': form_data
                 })
 
                 if result.status == 200:
-                    async def get_text():
-                        return await result.text()
-                    fetched = json.loads(aio.run(get_text()))
-                    if fetched['status'] == "success":
-                        modal_body.innerHTML = f"제출이 완료되었습니다.<br><br>축하합니다!<br>이번 제출의 채점 결과는 {fetched['message']} 입니다."
+                    fetched = await result.json()
+                    print(fetched)
+                    if fetched.status == "success":
+                        modal_body.innerHTML = f"제출이 완료되었습니다.<br><br>축하합니다!<br>이번 제출의 채점 결과는 {fetched.message} 입니다."
                     else:
-                        modal_body.innerHTML = f"제출에 실패했습니다. 다시 시도해주세요.<br>사유: {fetched['message']}"
-                else:
-                    modal_body.innerHTML = f"비밀번호가 올바르지 않거나 제출이 허가되지 않은 대회 입니다.<br>다시 시도해주세요."
+                        modal_body.innerHTML = f"제출에 실패했습니다. 다시 시도해주세요.<br>사유: {fetched.message}"
+                elif result.status == 403:
+                    error_data = await result.json()
+                    modal_body.innerHTML = f"비밀번호가 올바르지 않거나 제출이 허가되지 않은 대회 입니다.<br>다시 시도해주세요.<br><br>코드: {result.status} {result.statusText}<br>메시지: {error_data.detail}"
                     password.value = ""
+                    validation = document.getElementById('leaderboard_form_password_validation')
+                    validation.textContent = "확인이 필요합니다."
+                    if password.classList.contains('is-valid'):
+                        password.classList.remove('is-valid')
+                    if not password.classList.contains('is-invalid'):
+                        password.classList.add('is-invalid')
+                    if not validation.classList.contains('invalid-feedback'):
+                        validation.classList.add('invalid-feedback')
+                    if validation.classList.contains('valid-feedback'):
+                        validation.classList.remove('valid-feedback')
+                else:
+                    error_data = await result.json()
+                    modal_body.innerHTML = f"처리되지 못한 오류로 제출에 실패했습니다. 다시 시도해주세요.<br><br>코드: {result.status} {result.statusText}<br>메시지: {error_data.detail}"
             aio.run(submit())
         except Exception as _:
             traceback.print_exc()
@@ -233,6 +251,7 @@ def submit_leaderboard(url, team_list):
 
 username_messages = lambda u: f"{int(u.value)+1}번째 팀을 선택하셨습니다.", lambda u: "팀 이름이 올바르지 않습니다."
 password_messages = lambda p: "Looks good!" if p.value else (_ for _ in ()).throw(ValueError), lambda p: "비밀번호는 비어있을 수 없습니다."
+file_input_messages = lambda f: f"{f.value}를 제출합니다." if f.value else (_ for _ in ()).throw(ValueError), lambda f: "제출할 파일이 선택되지 않았습니다."
 
 
 async def set_leaderboard_data():
@@ -337,6 +356,10 @@ async def set_leaderboard_data():
             validation = document.getElementById('leaderboard_form_password_validation')
             if password and validation:
                 password.bind('change', watch_form(password, validation, password_messages))
+            file_input = document.getElementById('leaderboard_form_file')
+            validation = document.getElementById('leaderboard_form_file_validation')
+            if file_input and validation:
+                file_input.bind('change', watch_form(file_input, validation, file_input_messages))
     except Exception as _:
         traceback.print_exc()
 
