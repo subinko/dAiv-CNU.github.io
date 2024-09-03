@@ -4,6 +4,7 @@
 #front {
     width: 100%;
     height: 80vh;
+    min-height: 800px;
     background: #5A6E8C;
 }
 
@@ -51,9 +52,16 @@
     animation: up-down 2s ease-in-out infinite alternate-reverse both;
 }
 
+@media (max-width: 1200px) {
+    #front {
+        min-height: 600px;
+    }
+}
+
 @media (max-width: 991px) {
     #front {
         height: 100vh;
+        min-height: 0;
         text-align: center;
     }
 
