@@ -130,6 +130,7 @@
 .navbar .contest ul .active:hover,
 .navbar .contest ul li:hover>a {
     color: #4890A6;
+    cursor: pointer;
 }
 
 .navbar .contest:hover>ul {
