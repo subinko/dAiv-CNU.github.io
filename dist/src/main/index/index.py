@@ -12,18 +12,13 @@ window.AOS.init()
 # Programs List
 ########################################################################################################################
 def enable_isotope():
-    js_code = """
-let programs_container = document.getElementById('programs_container')
-if (programs_container) {
-    programs_isotope = new Isotope(programs_container, {
-        itemSelector: '.programs-item',
-        layoutMode: 'masonry'
-    });
-}
-    """
-    script_element = document.createElement("script")
-    script_element.text = js_code
-    document.body.appendChild(script_element)
+    programs_container = document.getElementById('programs_container')
+    if programs_container:
+        window.programs_isotope = window.Isotope.new(programs_container, {
+            'itemSelector': ".programs-item",
+            'layoutMode': "masonry"
+        })
+        window.AOS.refresh()
 
 
 def flag_selected_tag(selected):
@@ -54,7 +49,7 @@ def setup_programs_filter():
 
 
 ########################################################################################################################
-# Programs List
+# Set Datas by Year
 ########################################################################################################################
 from common.main import current_year, insert_element
 
@@ -75,6 +70,7 @@ if team:
 
     aio.run(add_team_history())
 
+
 programs = document.getElementById('programs')
 if programs:
     async def add_programs_history():
@@ -87,8 +83,15 @@ if programs:
             if not enabled:
                 enabled = True
                 document.getElementById('programs_'+str(year)).style.display = 'block'
+                images = document.select('img')
+
+                for img in images:
+                    if not img.complete:
+                        images.append(img)
+                    await aio.sleep(0.001)
+
                 window.AOS.init()
                 window.AOS.refresh()
-        setup_programs_filter()
+                setup_programs_filter()
 
     aio.run(add_programs_history())
