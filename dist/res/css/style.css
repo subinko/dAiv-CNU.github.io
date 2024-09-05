@@ -74,6 +74,7 @@
 .navbar .active:focus,
 .navbar li:hover>a {
     color: #2D4356;
+    cursor: pointer;
 }
 
 .navbar .joinus,
@@ -274,12 +275,14 @@
 .navbar-mobile .contest ul .active:hover,
 .navbar-mobile .contest ul li:hover>a {
     color: #4890A6;
+    cursor: pointer;
 }
 
 .navbar-mobile .contest>.dropdown-active,
 .navbar-mobile .dropdown>.dropdown-active {
     display: block;
     visibility: visible !important;
+    cursor: pointer;
 }
 
 
