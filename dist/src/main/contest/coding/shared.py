@@ -86,6 +86,8 @@ aio.run(set_join_status())
 # QnA
 ########################################################################################################################
 async def set_iframe():
+    if 'pushoong' not in window.frames:
+        return  # no qna iframe in the HTML
     pushoong = window.frames['pushoong'].document
     psh_req = await window.fetch(document.getElementsByName("pushoong")[0].attributes.data.value)
     psh_html = ((await psh_req.text()).replace("115px", "0px")
@@ -260,6 +262,9 @@ async def set_leaderboard_data():
     force_open_hider = False
     try:
         leaderboard = document.querySelector("#leaderboard_chart")
+        if leaderboard is None:
+            return  # no leaderboard chart in the HTML
+
         if leaderboard.innerHTML:
             raw_data = leaderboard.innerHTML
             leaderboard.innerHTML = ""
@@ -277,6 +282,11 @@ async def set_leaderboard_data():
                         }
                     })
                     fetched = json.loads(await result.text())
+
+                    if not fetched:  # no team in the fetched dataset
+                        print("INFO: No team data in the fetched dataset so hiding the leaderboard...")
+                        document.querySelector("#leaderboard").classList.add('d-none')
+                        return
 
                     # update dataset
                     dataset['teams'] = fetched['teams']
