@@ -86,9 +86,11 @@ aio.run(set_join_status())
 # QnA
 ########################################################################################################################
 async def set_iframe():
-    if 'pushoong' not in window.frames:
+    pushoong = None  # prevent garbage collection
+    try:
+        pushoong = window.frames['pushoong'].document
+    except Exception as _:
         return  # no qna iframe in the HTML
-    pushoong = window.frames['pushoong'].document
     psh_req = await window.fetch(document.getElementsByName("pushoong")[0].attributes.data.value)
     psh_html = ((await psh_req.text()).replace("115px", "0px")
                 .replace("//t1.daumcdn.net/kas/static/ba.min.js", "")
