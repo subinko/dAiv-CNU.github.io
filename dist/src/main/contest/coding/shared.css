@@ -188,7 +188,7 @@
 
 #winnerpodium .background-container {
     width: 100vw;
-    height: 92vh;
+    height: 840px;
 }
 
 #winnerpodium .foreground-wrapper {
@@ -209,7 +209,7 @@
     bottom: 0;
 }
 
-#winnerpodium .tropy-container {
+#winnerpodium .trophy-container {
     position: relative;
     width: 60%;
     height: 60%;
@@ -241,7 +241,7 @@
 
 @media (max-width: 1399px) {
     #winnerpodium .background-container {
-        height: 80vh;
+        height: 740px;
     }
     #winnerpodium .foreground-container {
         width: 64%;
@@ -253,7 +253,7 @@
 
 @media (max-width: 1199px) {
     #winnerpodium .background-container {
-        height: 74vh;
+        height: 680px;
     }
     #winnerpodium .foreground-container {
         width: 70%;
@@ -265,12 +265,12 @@
 
 @media (max-width: 991px) {
     #winnerpodium .background-container {
-        height: 80vh;
+        height: 720px;
     }
     #winnerpodium .foreground-container {
         width: 100%;
     }
-    #winnerpodium .tropy-container {
+    #winnerpodium .trophy-container {
         padding-top: 140px;
         padding-bottom: 120px;
     }
@@ -281,12 +281,12 @@
 
 @media (max-width: 768px) {
     #winnerpodium .background-container {
-        height: 60vh;
+        height: 560px;
     }
     #winnerpodium .foreground-container {
         width: 100%;
     }
-    #winnerpodium .tropy-container {
+    #winnerpodium .trophy-container {
         padding-top: 250px;
         padding-bottom: 140px;
     }
@@ -305,7 +305,7 @@
     #winnerpodium .foreground-container {
         width: 100%;
     }
-    #winnerpodium .tropy-container {
+    #winnerpodium .trophy-container {
         padding-top: 220px;
         padding-bottom: 220px;
     }
@@ -327,7 +327,7 @@
         width: 100%;
         padding-bottom: 40px;
     }
-    #winnerpodium .tropy-container {
+    #winnerpodium .trophy-container {
         padding-top: 360px;
         padding-bottom: 340px;
     }
@@ -347,7 +347,7 @@
         width: 100%;
         padding-bottom: 50px;
     }
-    #winnerpodium .tropy-container {
+    #winnerpodium .trophy-container {
         padding-top: 500px;
         padding-bottom: 500px;
     }
