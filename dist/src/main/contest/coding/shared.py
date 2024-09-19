@@ -91,7 +91,8 @@ async def set_iframe():
         pushoong = window.frames['pushoong'].document
     except Exception as _:
         return  # no qna iframe in the HTML
-    psh_req = await window.fetch(document.getElementsByName("pushoong")[0].attributes.data.value)
+    psh_url = document.getElementsByName("pushoong")[0].attributes.data.value
+    psh_req = await window.fetch(psh_url)
     psh_html = ((await psh_req.text()).replace("115px", "0px")
                 .replace("//t1.daumcdn.net/kas/static/ba.min.js", "")
                 .replace("Kakao.init('4cca00b63eedb801abfc9952db0ee7a3');", "")
@@ -103,7 +104,7 @@ async def set_iframe():
                 .replace("<div class=\"container\">", "<div class=\"container\" style=\"background-color: #fff;\">")
                 .replace("<div id=\"fullscreen-overlay\">", "<div id=\"fullscreen-overlay-disabled\" style=\"display:none;\">")
                 .replace("<div class=\"attach_border\" style=\"", "<div class=\"attach_border\" style=\"display:none;")
-                .replace("input_border col", "col mt-1 ml-1\" onclick=\"window.open('https://pushoong.com/ask/7395560693', '_blank');")
+                .replace("input_border col", f"col mt-1 ml-1\" onclick=\"window.open('{psh_url}', '_blank');")
                 .replace("id=\"ask_send\"", "id=\"ask_send_disabled\"")
                 .replace("<div class = \"container\">", "<div class = \"increase_max_width container\">")
                 .replace("ask_wrapper not_host", "increase_max_width ask_wrapper not_host")
