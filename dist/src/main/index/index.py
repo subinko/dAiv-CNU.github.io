@@ -53,20 +53,39 @@ def setup_programs_filter():
 ########################################################################################################################
 from common.main import current_year, insert_element
 
+#test_func = lambda e: print(e.target.text)
+
 team = document.getElementById('team')
 if team:
     async def add_team_history():
-        enabled = False
-        for year in range(current_year, 2022, -1):
+        enabled_years = []
+        for year in range(current_year + 1, 2021, -1):
             result = await window.fetch(f"/dist/res/templates/years/{year}/team.html")
             if result.status != 200:
                 continue
             insert_element(await result.text(), team.getElementsByClassName("container")[0], -1)
-            if not enabled:
-                enabled = True
+            enabled_years.append(year)
+
+            if len(enabled_years) == 1:
                 document.getElementById('team_'+str(year)).style.display = 'block'
                 window.AOS.init()
                 window.AOS.refresh()
+
+            button = document.createElement("a")
+            button.id = f"member_show_button_{year}"
+            button.href = "#team"
+            button.className = "btn btn-warning rounded-pill scrollto cursor-hover-item"
+            button.style.display = "none" if len(enabled_years) > 3 else "block"
+            button.style.color = "white"
+            button.textContent = str(year)
+
+            button_click_handler = f"""
+                document.querySelectorAll('[id^="team_"]').forEach(el => el.style.display = 'none');
+                document.getElementById('team_{year}').style.display = 'block'
+            """
+            button.setAttribute('onclick', button_click_handler)
+
+            document.getElementById('button_container').prepend(button)
 
     aio.run(add_team_history())
 
